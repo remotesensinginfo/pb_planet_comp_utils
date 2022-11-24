@@ -2,6 +2,7 @@
 
 import numpy
 
+
 def expand_ls_qa_pixel_msks(scn_xa, qa_pxl_msk="QA_PIXEL"):
     scn_lcl_xa = scn_xa.copy()
     unq_img_vals = numpy.unique(numpy.squeeze(scn_xa[qa_pxl_msk].values))
@@ -43,7 +44,9 @@ def expand_ls_qa_pixel_msks(scn_xa, qa_pxl_msk="QA_PIXEL"):
     all_clouds_da = all_clouds_da.astype(numpy.uint8)
 
     for val in unq_img_vals:
-        val_bin = numpy.flip(numpy.unpackbits(numpy.flip(numpy.array([val]).view(numpy.uint8))))
+        val_bin = numpy.flip(
+            numpy.unpackbits(numpy.flip(numpy.array([val]).view(numpy.uint8)))
+        )
 
         if val_bin[0] == 1:
             fill_da.values[scn_xa[qa_pxl_msk].values == val] = 1
@@ -61,7 +64,12 @@ def expand_ls_qa_pixel_msks(scn_xa, qa_pxl_msk="QA_PIXEL"):
             clear_da.values[scn_xa[qa_pxl_msk].values == val] = 1
         if val_bin[7] == 1:
             water_da.values[scn_xa[qa_pxl_msk].values == val] = 1
-        if (val_bin[1] == 1) or (val_bin[2] == 1) or (val_bin[3] == 1) or (val_bin[4] == 1):
+        if (
+            (val_bin[1] == 1)
+            or (val_bin[2] == 1)
+            or (val_bin[3] == 1)
+            or (val_bin[4] == 1)
+        ):
             all_clouds_da.values[scn_xa[qa_pxl_msk].values == val] = 1
 
     scn_lcl_xa["FILL"] = fill_da

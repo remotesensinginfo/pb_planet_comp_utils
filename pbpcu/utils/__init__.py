@@ -2,12 +2,15 @@
 
 import numpy
 
+
 def find_month_end_date(year, month):
     import calendar
+
     cal = calendar.Calendar()
     month_days = cal.monthdayscalendar(year, month)
     max_day_month = numpy.array(month_days).flatten().max()
     return max_day_month
+
 
 def zero_pad_num_str(
     num_val: float,
